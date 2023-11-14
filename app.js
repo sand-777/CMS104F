@@ -5,6 +5,10 @@ const Blog = require("./model/blogModel");
 
 const express = require("express")
 const app = express();
+const cors = require("cors")
+
+
+app.use(cors())
  
 //nodejs lai form bata aako data parse gar vaneko ho
 app.use(express.json());
@@ -43,7 +47,7 @@ app.get("/blogs",async(req,res)=>{
         res.status(200).json({
             // status:200,
             message: "Blogs fetched successfully",
-            data : blogs
+            blogs : blogs
         })
     }
 
@@ -87,7 +91,7 @@ if(blog){
 
 //Create blog api
 
-app.post("/createBlog", async (req,res)=>{
+app.post("/blogs", async (req,res)=>{
     const title = req.body.title;
     const subTitle = req.body.subTitle;
     const description = req.body.description;
@@ -115,6 +119,43 @@ app.post("/createBlog", async (req,res)=>{
     //     message : "Blog created successfully"
     // })
 
+    
+
+})
+
+
+//UPDATE BLOG API
+app.patch("/blogs/:id",async(req,res)=>{
+    const id = req.params.id
+    const title = req.body.title
+    const subTitle = req.body.subTitle
+    const description = req.body.description
+
+
+    // const {title,subTitle,description} = req.body
+
+
+   await Blog.findByIdAndUpdate(id,{
+        title : title,
+        subTitle : subTitle,
+        description : description
+    })
+
+    res.status(200).json({
+        message : "Blog updated successfully"
+    })
+
+})
+
+//Delet API
+
+app.delete("/blogs/:id",async(req,res)=>{
+    const id = req.params.id
+    await Blog.findByIdAndDelete(id)
+
+    res.status(200).json({
+        message : "Blog deleted successfully"
+    })
 })
 
 app.listen(2000,()=>{
