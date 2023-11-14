@@ -39,13 +39,13 @@ app.get("/blogs",async(req,res)=>{
 
     if(blogs.length == 0){
         res.status(404).json({
-            // status:404,
+          
             message: "Empty blogs",
             
         })
     }else{
         res.status(200).json({
-            // status:200,
+          
             message: "Blogs fetched successfully",
             blogs : blogs
         })
